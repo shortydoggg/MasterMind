@@ -595,17 +595,17 @@ class bot {
    * @see validator
    */
 	protected validator validate() {
-		if (!makeValidate) { return new validator(true,"Keine Kommentar, der Bot hat ja schon geholfen");}
+		if (!makeValidate) { return new validator(true,"No comment.  The bot has already helped.");}
 		boolean rightColors = true;
 		if (mmCore.data.size()==1)
-			return new validator(true,"Jede Wahl ist eine gute Wahl.");
+			return new validator(true,"Every choice is a good choice.");
 		else{
 			for (int i = 1; i<mmCore.data.size(); i++){
 				for (int j = 0; j<mmCore.getCodeSize(); j++){
 					if (!(mmCore.getValueAt(i,j).equals(mmCore.getValueAt(j))))
 						break;
 					else if (j==mmCore.getCodeSize()-1)
-						return new validator(false,"Das ist die gleiche Zeile wie Zeile: " + (mmCore.data.size()-i));
+						return new validator(false,"This is the same line as line: " + (mmCore.data.size()-i));
 				}
 			}
             String[] s = mmCore.getHintPane(1);
@@ -631,10 +631,10 @@ class bot {
 						rightColors = false;
 				}
 				if (rightColors)
-					return new validator(true,"Gute Wahl, solange die Farben vertauscht sind.");
-				return new validator(false,"Nicht so gut, da schon alle Farben bekannt sind, sie müssen nur noch vertauscht werden.");
+					return new validator(true,"Good choice, as long as the colors are swapped.");
+				return new validator(false,"Not so good, since all the colors are already known. They just need to be swapped around.");
 			}
-			return new validator(true,"Alles ist gut was der Codefindung dient.");
+			return new validator(true,"Anything that serves the discovery of the code is good.");
 		}
 	}
 }

@@ -25,7 +25,7 @@ public class gui {
    */
   public void showGUI() {
     gA = new gameArea(this);
-    gA.setTitle(GAMENAME + " Spiel: unbenannt");
+    gA.setTitle(GAMENAME + " Game: Untitled");
     genMenu();
     newGame();
   }
@@ -36,9 +36,9 @@ public class gui {
   private void genMenu() {
 		JMenuBar bar = new JMenuBar();
 		{
-			JMenu menu = new JMenu("Datei");
+			JMenu menu = new JMenu("File");
 			{
-			JMenuItem item00 = new JMenuItem("Öffnen");
+			JMenuItem item00 = new JMenuItem("Open");
       item00.setAccelerator(KeyStroke.getKeyStroke(
       KeyEvent.VK_O, ActionEvent.CTRL_MASK));
       item00.addActionListener(new ActionListener () {
@@ -46,7 +46,7 @@ public class gui {
             loadDialog();
           }
 			});
-      JMenuItem item01 = new JMenuItem("Speichern");
+      JMenuItem item01 = new JMenuItem("Save");
       item01.setAccelerator(KeyStroke.getKeyStroke(
         KeyEvent.VK_S, ActionEvent.CTRL_MASK));
       item01.addActionListener(new ActionListener () {
@@ -54,7 +54,7 @@ public class gui {
             saveFile();
           }
 			});
-			JMenuItem item02 = new JMenuItem("Speichern unter...");
+			JMenuItem item02 = new JMenuItem("Save As ...");
       item02.setAccelerator(KeyStroke.getKeyStroke(
         KeyEvent.VK_S, ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK));
       item02.addActionListener(new ActionListener () {
@@ -62,7 +62,7 @@ public class gui {
             saveDialog();
           }
 			});
-      JMenuItem item03 = new JMenuItem("Beenden");
+      JMenuItem item03 = new JMenuItem("End");
       item03.setAccelerator(KeyStroke.getKeyStroke(
         KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
       item03.addActionListener(new ActionListener () {
@@ -80,15 +80,19 @@ public class gui {
       menu.addSeparator();
       menu.add(item03);
       }
-      JMenu menu02 = new JMenu("Hilfe");
+      JMenu menu02 = new JMenu("Help");
       {
-      JMenuItem item21 = new JMenuItem("Anleitung");
+      JMenuItem item21 = new JMenuItem("Instructions");
+      item21.setAccelerator(KeyStroke.getKeyStroke(
+		KeyEvent.VK_F1, 0));
       item21.addActionListener(new ActionListener () {
         public void actionPerformed (ActionEvent e) {
         	showDialog(gameDialogSelector.HELP);
           }
       });
      JMenuItem item22 = new JMenuItem("Info");
+      item22.setAccelerator(KeyStroke.getKeyStroke(
+		KeyEvent.VK_A, ActionEvent.CTRL_MASK));
       item22.addActionListener(new ActionListener () {
         public void actionPerformed (ActionEvent e) {
         	showDialog(gameDialogSelector.INFO);
@@ -153,9 +157,9 @@ public class gui {
     //Show Dialog
     if(fc.showSaveDialog(gA) == JFileChooser.APPROVE_OPTION) {
       if(fc.getSelectedFile().exists()) {
-        int ret = JOptionPane.showConfirmDialog(null, "Die Datei " + fc.getSelectedFile().getName() + " existiert bereits"
-           +"wollen Sie die Datei wirklich überschreiben?"
-           +"Alle Spielstände gehen dadurch verloren","Datei überschreiben?",
+        int ret = JOptionPane.showConfirmDialog(null, "The file " + fc.getSelectedFile().getName() + " already exists."
+           +"Would you like to know if the dates are right?"
+           +"All saved games will be lost as a result.","Overwrite file?",
            JOptionPane.YES_NO_OPTION);
         if(ret != 0) { //YES / OK
           return;
@@ -165,7 +169,7 @@ public class gui {
       if(!filename.getAbsolutePath().endsWith(".mm")) {
         filename = new File(filename.getAbsolutePath()+".mm");
       }
-      gA.setTitle(GAMENAME+" Spiel: " + filename.getName());
+      gA.setTitle(GAMENAME+" Game: " + filename.getName());
       saveFile(filename);
     }
   }
@@ -180,7 +184,7 @@ public class gui {
     if(filename == null) {
       saveDialog();
     } else {
-      gA.setTitle(GAMENAME+" Spiel: " + filename.getName());
+      gA.setTitle(GAMENAME+" Game: " + filename.getName());
       saveFile(filename);
     }
   }
@@ -195,11 +199,11 @@ public class gui {
     save gamesave = new save(filn);
     try {
       gamesave.savefile(game.getCore());
-      gA.setText("Spiel "+filn.getName().substring(0,filn.getName().length()-3) +" wurde gespeichert ... |");
+      gA.setText("Game "+filn.getName().substring(0,filn.getName().length()-3) +" saved ... |");
     } catch (Exception exc) {
         JOptionPane.showMessageDialog(null,
-        ":/ Speichern nicht möglich!",
-        "Datei " + filn.getName() +  " wurde nicht gespeichert!",
+        ":/ Unable to save!",
+        "File " + filn.getName() +  " was not saved.!",
         JOptionPane.ERROR_MESSAGE);
     }
   }
@@ -233,8 +237,8 @@ public class gui {
       } catch(Exception exc) {
         System.out.println(exc.toString());
          JOptionPane.showMessageDialog(null,
-          ":/ Der Spielstand ist defekt oder nicht lesbar!",
-          "Datei " + fc.getSelectedFile().getName() +  " ist beschädigt!",
+          ":/ The save file is corrupt or unreadable.!",
+          "File " + fc.getSelectedFile().getName() +  " is damaged!",
           JOptionPane.ERROR_MESSAGE);
       }
     }
@@ -261,24 +265,24 @@ public class gui {
       setHapticFeedback(v.getText());
       if(!v.isValid()) { return; }
     } else {
-        setHapticFeedback("Errate den geheimen Code ...");
+        setHapticFeedback("Guess the secret code. ...");
     }
     int leftTries = game.leftTries();
     if(leftTries<0){
       leftTries = Math.abs(leftTries);
-      setHapticFeedback(getHapticFeedback()+ " - Schon " + leftTries + " " + ((leftTries == 1) ? "Versuch" : "Versuche") + " benötigt");
+      setHapticFeedback(getHapticFeedback()+ " - Already " + leftTries + " " + ((leftTries == 1) ? "Attempt" : "tries") + " needed");
     } else {
-      setHapticFeedback(getHapticFeedback()+ " - Noch " + leftTries  + " " + ((leftTries<2) ? "Versuch" : "Versuche") + " möglich");
+      setHapticFeedback(getHapticFeedback()+ " Still " + leftTries  + " " + ((leftTries<2) ? "Attempt" : "tries") + " possible");
     }
     switch(game.addTry()) { // Check game status
       case WIN:
         disableGame();
         int sumTries = game.getTries()-game.leftTries();
-        setHapticFeedback("SIE HABEN GEWONNEN :) - Mit " + sumTries + ((sumTries == 1) ? "em Versuch!" : " Versuchen!"));
+        setHapticFeedback("YOU HAVE WON :) - with " + sumTries + ((sumTries == 1) ? " Attempt!" : " Attempts!"));
         break;
       case LOST:
         disableGame();
-        setHapticFeedback("SIE HABEN VERLOREN :(");
+        setHapticFeedback("YOU HAVE LOST! ");
         break;
       case PLAYING:
         gA.setTitle(gA.getTitle().endsWith("*") ? gA.getTitle() : gA.getTitle() + "*");
@@ -313,7 +317,7 @@ public class gui {
   protected void setCodeAndNewGame () {
     gA.removeManualCode();
     createGame();
-    gA.setText("Geheimer Code wurde erstellt...Viel Spaß beim Erraten");
+    gA.setText("A secret code has been created. Have fun guessing!");
   }
 
   /**
@@ -324,12 +328,12 @@ public class gui {
   protected void newGame() {
     if (gameRunning()) {return;}
     filename = null;
-    gA.setTitle(GAMENAME+" Spiel: unbenannt");
+    gA.setTitle(GAMENAME+" Game: Untitled");
     gA.initManualCode();
     if(gA.isManualCode()) {
-      gA.setText("Setze den geheimen Code und klicke anschließend auf OK ...");
+      gA.setText("Enter the secret code, then click OK.");
     } else {
-      gA.setText("Neues Spiel ... neues Glück :)");
+      gA.setText("New game... New luck. :)");
     }
     createGame(null);
   }
@@ -344,8 +348,8 @@ public class gui {
    */
   protected void newGame(Object[] o) {
     if (gameRunning()) {return;}
-    gA.setTitle(GAMENAME+" Spiel: " + filename.getName());
-    gA.setText("Spiel "+filename.getName().substring(0,filename.getName().length()-3) +" wurde geladen ... |");
+    gA.setTitle(GAMENAME+" Game: " + filename.getName());
+    gA.setText("Game "+filename.getName().substring(0,filename.getName().length()-3) +" was loaded. |");
     core co= new core(o);
     gA.options.setColorRange(co.getEnabledColorsSize());
     gA.options.setCodeSize(co.getCodeSize());
@@ -394,11 +398,11 @@ public class gui {
    */
   protected boolean gameRunning() {
     if(gA.getTitle().endsWith("*")) {
-      Object [] options = {"Ja", "Nein", "Speichern"};
+      Object [] options = {"Yes", "No", "Save"};
       gameRunningDialog = true;
-      int ret = JOptionPane.showOptionDialog(null, "Es läuft zur Zeit ein aktives Spiel\n"
-                  +"Wollen Sie das Spiel wirklich beenden?",
-                  "Spiel beenden?",
+      int ret = JOptionPane.showOptionDialog(null, "An active game is currently in progress.\n"
+                  +"Do you really want to quit the game?",
+                  "End Game?",
                   JOptionPane.YES_NO_CANCEL_OPTION,
                   JOptionPane.QUESTION_MESSAGE,
                   null,
@@ -455,7 +459,7 @@ public class gui {
    * Reset game, after WIN or LOST
    */
   private void disableGame() {
-    gA.setTitle(GAMENAME + " Spiel: " + ((filename==null)  ? "unbenannt" : filename.getName()));
+    gA.setTitle(GAMENAME + " Game: " + ((filename==null)  ? "Untitled" : filename.getName()));
     gA.disableGame();
   }
 }

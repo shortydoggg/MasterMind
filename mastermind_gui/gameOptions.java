@@ -29,7 +29,7 @@ class gameOptions extends JPanel {
     	  this.g = g;
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         Box vbox = Box.createVerticalBox();
-        setBorder(BorderFactory.createTitledBorder("::Einstellungen::"));
+        setBorder(BorderFactory.createTitledBorder("::Settings::"));
         slideColors = new JSlider(JSlider.VERTICAL,2,14,colorRange);
         slideCode  = new JSlider(JSlider.VERTICAL,2,10,codeLength);
         jsTries = new JSpinner();
@@ -68,10 +68,10 @@ class gameOptions extends JPanel {
             setNumberOfTries((Integer)(2+(source.getValue()+1)/2)+((slideColors.getValue()+1)/2));
           }
         });
-        manuCode = new JCheckBox("Code manuell setzen");
+        manuCode = new JCheckBox("Set Code Manually");
         manuCode.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        JButton ak = new JButton ("<html><u>N</u>eues Spiel</html>");
+        JButton ak = new JButton ("<html><u>N</u>ew Game</html>");
         ak.setAlignmentX(Component.RIGHT_ALIGNMENT);
         ak.addActionListener(new ActionListener () {
           public void actionPerformed (ActionEvent e) {
@@ -81,9 +81,9 @@ class gameOptions extends JPanel {
         //Margin Top <-> Label for Color / Code Length Labels
         vbox.add(Box.createVerticalStrut(10));
         Box hlabl = Box.createHorizontalBox();
-        hlabl.add(new JLabel("<html>Anzahl<br>Farben:</html>"));
+        hlabl.add(new JLabel("<html>Number of<br>Colors:</html>"));
         hlabl.add(Box.createHorizontalGlue());
-        hlabl.add(new JLabel("<html>Code<br>Länge:</html>"));
+        hlabl.add(new JLabel("<html>Code<br>Length:</html>"));
         vbox.add(hlabl);
         //Margin Label <-> JSpinner
         vbox.add(Box.createVerticalStrut(15));
@@ -96,7 +96,7 @@ class gameOptions extends JPanel {
         //Margin JSpinner <-> Tries
         vbox.add(Box.createVerticalStrut(20));
         Box trieslbl = Box.createHorizontalBox();
-        trieslbl.add(new JLabel("Versuche:  "));
+        trieslbl.add(new JLabel("Tries:  "));
         trieslbl.add(jsTries);
         trieslbl.setAlignmentX(Component.RIGHT_ALIGNMENT);
         vbox.add(trieslbl);

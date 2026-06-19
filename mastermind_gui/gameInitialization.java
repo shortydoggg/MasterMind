@@ -98,7 +98,7 @@ class gameInitialization {
     Box vbox = Box.createVerticalBox();
     JScrollPane scrollpane = new JScrollPane(gG);
     vbox.add(scrollpane);
-    JCheckBox cb = new JCheckBox("Hilfsfunktion aktivieren");
+    JCheckBox cb = new JCheckBox("Activate help function");
     cb.setSelected(makeValidate);
     cb.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
